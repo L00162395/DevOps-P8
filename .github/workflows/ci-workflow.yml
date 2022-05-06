@@ -40,3 +40,25 @@ jobs:
           npm test
         env:
           CI: true
+          
+Build-and-Push-Docker-Image:
+  runs-on: unbuntu-latest
+  needs: test
+  name: Docker build, tag, push
+  
+  steps:
+  - name: Checkout
+    uses: actions/checkout@v1
+  - name: Download build artifact
+    uses: actions/download-artifact@main
+    with:
+      name: webpacks artifacts
+      path: public
+  - name: Build container image
+    uses: docker/build-push-actions@v1
+    with:
+      username: ${{github.actor}}
+      password: ${{secrets.GITHUB_TOKEN}}
+      registory: docker.pkg.github.com
+      repository: l00162395/devps-p8/tic-tac-toe
+      tag_with_sha: true
