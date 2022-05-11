@@ -37,11 +37,10 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
-      - name: Build and push Docker image
-        uses: docker/build-push-action@master
+      - name: Build and push Docker imag
+        uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
         with:
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-          registory: docker.pkg.github.com
-          repository: l00162395/devops-p8/new
-          tag_with_sha: true
+            context: .
+            push: true
+            tags: ${{ steps.meta.outputs.tags }}
+            labels: ${{ steps.meta.outputs.labels }}
